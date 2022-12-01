@@ -62,6 +62,7 @@ class Analyser:
         for (engine, sales_code) in engine_to_sales_codes:
             mask = [(sales_code in x) for x in local_df["sales_code_array"]]
             test_value: int = local_df[mask]['fin'].count()
+            print(f"{sales_code}  -  {engine}: {test_value} units sold")
             filtered_engines[engine] = test_value
 
         plt.bar(*zip(*filtered_engines.items()), color=["red","green","blue","orange"])

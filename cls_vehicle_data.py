@@ -70,6 +70,12 @@ class VehicleData:
         self.__final_table = pd.merge(self.__sheets["vehicle_hash"], self.__sheets["sales_codes"], how="left",
                                       on="h_vehicle_hash").drop(columns=["h_vehicle_hash"])
 
+    def save(self):
+        if not self.is_final_table_created():
+            raise Exception("Final Table is not yet created!")
+        fp = "./enhanced_vehicle_data.xlsx"
+        self.__final_table.to_excel(fp)
+
     def is_final_table_created(self) -> bool:
         return self.__final_table is not None
 
