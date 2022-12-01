@@ -26,6 +26,7 @@ class Analyser:
         local_df = self.__filter_for_year(date_constraint)
         local_df = local_df.groupby(["country"])["country"].count().sort_values(ascending=False)
         local_df = local_df.head(3).reset_index(name="amount")
+        plt.figure()
         local_df.set_index(["country"]).plot(kind="bar", stacked=False, color=["#ffed00", "#a9ff9e", "orange"],
                                              y="amount", legend=None)
         plt.xlabel("country")
@@ -64,7 +65,7 @@ class Analyser:
             test_value: int = local_df[mask]['fin'].count()
             print(f"{sales_code}  -  {engine}: {test_value} units sold")
             filtered_engines[engine] = test_value
-
+        plt.figure()
         plt.bar(*zip(*filtered_engines.items()), color=["red","green","blue","orange"])
         plt.title("Verkaufte Fahrzeuge zwischen 01.01.2017 und 01.01.2021")
         plt.xlabel("Motor-Typ")
