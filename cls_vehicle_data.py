@@ -59,6 +59,7 @@ class VehicleData:
         self.__drop_invalid_dates()
         self.__drop_na()
         self.__drop_unwanted_columns()
+        self.__drop_na()
 
     def print_sheet_metadata(self) -> None:
         for (sheet_name, sheet_df) in self.__sheets.items():  # type: str, pd.DataFrame
@@ -68,7 +69,8 @@ class VehicleData:
 
     def create_final_table(self) -> None:
         self.__final_table = pd.merge(self.__sheets["vehicle_hash"], self.__sheets["sales_codes"], how="left",
-                                      on="h_vehicle_hash").drop(columns=["h_vehicle_hash"])
+                                      on="h_vehicle_hash").drop(columns=["h_vehicle_hash"]).dropna()
+
 
     def save(self):
         if not self.is_final_table_created():
