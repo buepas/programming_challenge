@@ -17,9 +17,9 @@ class Analyser:
             os.mkdir(self.__figure_path)
 
     def evaluate(self):
-        # self.__evaluate_top_3_countries_by_sales_in(("2014-01-01", "2020-12-31"))
-        # self.__evaluate_top_year_sales(("2014-01-01", "2020-12-31"))
-        # self.__evalute_first_sold_vehicle()
+        self.__evaluate_top_3_countries_by_sales_in(("2014-01-01", "2020-12-31"))
+        self.__evaluate_top_year_sales(("2014-01-01", "2020-12-31"))
+        self.__evalute_first_sold_vehicle()
         self.__evaulate_vehicles_sold_in_with_motors(("2017-01-01", "2021-01-01"), ["OM934", "OM936", "OM470", "OM471"])
 
     def __evaluate_top_3_countries_by_sales_in(self, date_constraint: (str, str)):
@@ -57,12 +57,11 @@ class Analyser:
         engines_df["Code Descrition En"] = engines_df['Code Description En'].str.replace(" ", "")
         engines_df = engines_df[engines_df["Code Descrition En"].str.contains("|".join(motors))]
 
-        test_col = list(zip(engines_df["Code Descrition En"], engines_df["Sales Code"]))
+        engine_to_sales_codes = list(zip(engines_df["Code Descrition En"], engines_df["Sales Code"]))
         filtered_engines = {}
-        for (engine, sales_code) in test_col:
+        for (engine, sales_code) in engine_to_sales_codes:
             mask = [(sales_code in x) for x in local_df["sales_code_array"]]
             test_value: int = local_df[mask]['fin'].count()
-            print(f"t:{test_value} e:{engine}")
             filtered_engines[engine] = test_value
 
         plt.bar(*zip(*filtered_engines.items()), color=["red","green","blue","orange"])
